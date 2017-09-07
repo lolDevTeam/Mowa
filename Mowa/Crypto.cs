@@ -12,6 +12,7 @@ namespace Mowa
     using System;
     using System.IO;
     using System.Security.Cryptography;
+    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -35,6 +36,75 @@ namespace Mowa
     /// </summary>
     public class Crypto
     {
+        /// <summary>
+        /// The encrypt.
+        /// </summary>
+        /// <param name="plainText">
+        /// The plain text.
+        /// </param>
+        /// <param name="password">
+        /// The password.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task<string> Encrypt(string plainText, string password)
+        {
+            if (plainText == null)
+            {
+                return null;
+            }
+
+            if (password == null)
+            {
+                password = string.Empty;
+            }
+
+            var bytesToBeEncrypted = Encoding.UTF8.GetBytes(plainText);
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+
+            passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+
+            var bytesEncrypted = await this.Crypt(bytesToBeEncrypted, passwordBytes, CryptType.Encrypt);
+
+            return Convert.ToBase64String(bytesEncrypted);
+        }
+
+        /// <summary>
+        /// The decrypt.
+        /// </summary>
+        /// <param name="encryptedText">
+        /// The encrypted text.
+        /// </param>
+        /// <param name="password">
+        /// The password.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task<string> Decrypt(string encryptedText, string password)
+        {
+            if (encryptedText == null)
+            {
+                return null;
+            }
+
+            if (password == null)
+            {
+                password = string.Empty;
+            }
+
+            // Get the bytes of the string
+            var bytesToBeDecrypted = Convert.FromBase64String(encryptedText);
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+
+            passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+
+            var bytesDecrypted = await this.Crypt(bytesToBeDecrypted, passwordBytes, CryptType.Decrypt);
+
+            return Encoding.UTF8.GetString(bytesDecrypted);
+        }
+
         /// <summary>
         /// The encrypt.
         /// </summary>
