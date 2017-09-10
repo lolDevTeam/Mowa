@@ -21,6 +21,7 @@ namespace Mowa.MovieAPI.Controllers
     using Microsoft.Extensions.Logging;
 
     using Mowa.MovieAPI.Model.Movie;
+    using Mowa.MovieAPI.Model.Search;
 
     using Newtonsoft.Json;
 
@@ -100,6 +101,42 @@ namespace Mowa.MovieAPI.Controllers
             var responseData = await response.Content.ReadAsStringAsync();
 
             var searchResult = JsonConvert.DeserializeObject<MovieDetail>(responseData);
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// The popularity.
+        /// </summary>
+        /// <param name="region">
+        /// The region.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [HttpGet("popular/{region}")]
+        public async Task<SearchResult> Popular(string region)
+        {
+            var queryUrl = MovieDbApiUrl + "popular" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
+            this.logger.LogDebug("queryUrl=" + queryUrl);
+
+            var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            this.logger.LogInformation("Performing a GET request to the endpoint.");
+
+            var response = await client.GetAsync(queryUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.logger.LogError("response status is not successful. " + response.StatusCode);
+                return null;
+            }
+
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
 
             return searchResult;
         }
