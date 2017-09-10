@@ -245,5 +245,41 @@ namespace Mowa.MovieAPI.Controllers
 
             return searchResult;
         }
+
+        /// <summary>
+        /// get similar movies to specific one.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [HttpGet("{id}/similar")]
+        public async Task<SearchResult> Similar(int id)
+        {
+            var queryUrl = MovieDbApiUrl + id + "/similar?api_key=" + this.movieDbApiKey;
+            this.logger.LogDebug("queryUrl=" + queryUrl);
+
+            var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            this.logger.LogInformation("Performing a GET request to the endpoint.");
+
+            var response = await client.GetAsync(queryUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.logger.LogError("response status is not successful. " + response.StatusCode);
+                return null;
+            }
+
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+
+            return searchResult;
+        }
     }
 }

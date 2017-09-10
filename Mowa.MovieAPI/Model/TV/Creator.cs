@@ -1,18 +1,21 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProductionCompany.cs" company="jayDev">
+// <copyright file="Creator.cs" company="jayDev">
 //   Jan Jalinski
 // </copyright>
 // <summary>
-//   Defines the ProductionCompanies type.
+//   Defines the Creator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Mowa.MovieAPI.Model.Movie
+namespace Mowa.MovieAPI.Model.TV
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
-    /// The production company.
+    /// The creator.
     /// </summary>
-    public class ProductionCompany
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "moviedb api is using underlines, so it's ok here")]
+    public class Creator
     {
         /// <summary>
         /// Gets or sets the id.
@@ -23,5 +26,15 @@ namespace Mowa.MovieAPI.Model.Movie
         /// Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
+        public int Gender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the profile_ path.
+        /// </summary>
+        public string Profile_Path { get; set; }
     }
 }

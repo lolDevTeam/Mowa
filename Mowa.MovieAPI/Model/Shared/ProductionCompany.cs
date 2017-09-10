@@ -1,18 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Genre.cs" company="jayDev">
+// <copyright file="ProductionCompany.cs" company="jayDev">
 //   Jan Jalinski
 // </copyright>
 // <summary>
-//   Defines the Genre type.
+//   Defines the ProductionCompanies type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Mowa.MovieAPI.Model.Movie
+namespace Mowa.MovieAPI.Model.Shared
 {
     /// <summary>
-    /// The genre.
+    /// The production company.
     /// </summary>
-    public class Genre
+    public class ProductionCompany
     {
         /// <summary>
         /// Gets or sets the id.

@@ -10,9 +10,10 @@
 namespace Mowa.MovieAPI.Model.Movie
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+
+    using Mowa.MovieAPI.Model.Shared;
 
     /// <summary>
     /// The movie detail.
