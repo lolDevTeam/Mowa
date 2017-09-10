@@ -9,6 +9,7 @@
 
 namespace Mowa.MovieAPI.Model.Search
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace Mowa.MovieAPI.Model.Search
         /// <summary>
         /// Gets or sets the release_ date.
         /// </summary>
-        public string Release_Date { get; set; }
+        public DateTime? Release_Date { get; set; }
 
         /// <summary>
         /// Gets or sets the genre_ ids.

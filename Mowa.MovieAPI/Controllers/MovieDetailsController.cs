@@ -70,7 +70,7 @@ namespace Mowa.MovieAPI.Controllers
         }
 
         /// <summary>
-        /// The get.
+        /// get detail of a specific movie.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -106,10 +106,10 @@ namespace Mowa.MovieAPI.Controllers
         }
 
         /// <summary>
-        /// The popularity.
+        /// get popular movies.
         /// </summary>
         /// <param name="region">
-        /// The region.
+        /// The region. For example: "de" "en" "us"
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -118,6 +118,111 @@ namespace Mowa.MovieAPI.Controllers
         public async Task<SearchResult> Popular(string region)
         {
             var queryUrl = MovieDbApiUrl + "popular" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
+            this.logger.LogDebug("queryUrl=" + queryUrl);
+
+            var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            this.logger.LogInformation("Performing a GET request to the endpoint.");
+
+            var response = await client.GetAsync(queryUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.logger.LogError("response status is not successful. " + response.StatusCode);
+                return null;
+            }
+
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// get latest movies. note: unstable for now
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [HttpGet("latest")]
+        public async Task<MovieDetail> Latest()
+        {
+            var language = "de-DE";
+            var queryUrl = MovieDbApiUrl + "latest?api_key=" + this.movieDbApiKey;
+
+            var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl + "/latest") };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            this.logger.LogInformation("Performing a GET request to the endpoint.");
+
+            var response = await client.GetAsync(queryUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.logger.LogError("response status is not successful. " + response.StatusCode);
+                return null;
+            }
+
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<MovieDetail>(responseData);
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// get upcoming movies for a region.
+        /// </summary>
+        /// <param name="region">
+        /// The region. For example: "de" "en" "us"
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [HttpGet("upcoming/{region}")]
+        public async Task<SearchResult> Upcoming(string region)
+        {
+            var queryUrl = MovieDbApiUrl + "upcoming" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
+            this.logger.LogDebug("queryUrl=" + queryUrl);
+
+            var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            this.logger.LogInformation("Performing a GET request to the endpoint.");
+
+            var response = await client.GetAsync(queryUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.logger.LogError("response status is not successful. " + response.StatusCode);
+                return null;
+            }
+
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// get a list of movies in theatres for a specific region.
+        /// </summary>
+        /// <param name="region">
+        /// The region. For example: "de" "en" "us"
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [HttpGet("now_playing/{region}")]
+        public async Task<SearchResult> NowPlaying(string region)
+        {
+            var queryUrl = MovieDbApiUrl + "now_playing" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
             this.logger.LogDebug("queryUrl=" + queryUrl);
 
             var client = new HttpClient() { BaseAddress = new Uri(MovieDbApiUrl) };
