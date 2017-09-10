@@ -115,7 +115,7 @@ namespace Mowa.MovieAPI.Controllers
         /// The <see cref="Task"/>.
         /// </returns>
         [HttpGet("popular/{region}")]
-        public async Task<SearchResult> Popular(string region)
+        public async Task<MovieSearchResult> Popular(string region)
         {
             var queryUrl = MovieDbApiUrl + "popular" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
             this.logger.LogDebug("queryUrl=" + queryUrl);
@@ -136,7 +136,7 @@ namespace Mowa.MovieAPI.Controllers
 
             var responseData = await response.Content.ReadAsStringAsync();
 
-            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(responseData);
 
             return searchResult;
         }
@@ -184,7 +184,7 @@ namespace Mowa.MovieAPI.Controllers
         /// The <see cref="Task"/>.
         /// </returns>
         [HttpGet("upcoming/{region}")]
-        public async Task<SearchResult> Upcoming(string region)
+        public async Task<MovieSearchResult> Upcoming(string region)
         {
             var queryUrl = MovieDbApiUrl + "upcoming" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
             this.logger.LogDebug("queryUrl=" + queryUrl);
@@ -205,7 +205,7 @@ namespace Mowa.MovieAPI.Controllers
 
             var responseData = await response.Content.ReadAsStringAsync();
 
-            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(responseData);
 
             return searchResult;
         }
@@ -220,7 +220,7 @@ namespace Mowa.MovieAPI.Controllers
         /// The <see cref="Task"/>.
         /// </returns>
         [HttpGet("now_playing/{region}")]
-        public async Task<SearchResult> NowPlaying(string region)
+        public async Task<MovieSearchResult> NowPlaying(string region)
         {
             var queryUrl = MovieDbApiUrl + "now_playing" + "?api_key=" + this.movieDbApiKey + "&region=" + region;
             this.logger.LogDebug("queryUrl=" + queryUrl);
@@ -241,7 +241,7 @@ namespace Mowa.MovieAPI.Controllers
 
             var responseData = await response.Content.ReadAsStringAsync();
 
-            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(responseData);
 
             return searchResult;
         }
@@ -256,7 +256,7 @@ namespace Mowa.MovieAPI.Controllers
         /// The <see cref="Task"/>.
         /// </returns>
         [HttpGet("{id}/similar")]
-        public async Task<SearchResult> Similar(int id)
+        public async Task<MovieSearchResult> Similar(int id)
         {
             var queryUrl = MovieDbApiUrl + id + "/similar?api_key=" + this.movieDbApiKey;
             this.logger.LogDebug("queryUrl=" + queryUrl);
@@ -277,7 +277,7 @@ namespace Mowa.MovieAPI.Controllers
 
             var responseData = await response.Content.ReadAsStringAsync();
 
-            var searchResult = JsonConvert.DeserializeObject<SearchResult>(responseData);
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(responseData);
 
             return searchResult;
         }

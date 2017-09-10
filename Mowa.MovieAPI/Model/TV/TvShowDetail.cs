@@ -144,7 +144,7 @@ namespace Mowa.MovieAPI.Model.TV
         /// <summary>
         /// Gets or sets the vote_ average.
         /// </summary>
-        public int Vote_Average { get; set; }
+        public double Vote_Average { get; set; }
 
         /// <summary>
         /// Gets or sets the vote_ count.

@@ -1,23 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SearchResult.cs" company="jayDev">
+// <copyright file="TvShowSearchResult.cs" company="jayDev">
 //   Jan Jalinski
 // </copyright>
 // <summary>
-//   Defines the SearchResult type.
+//   Defines the TvShowSearchResult type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Mowa.MovieAPI.Model.Search
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// The search result.
+    /// The tv show search result.
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "moviedb api is using underlines, so it's ok here")]
-    public class SearchResult
+    public class TvShowSearchResult
     {
         /// <summary>
         /// Gets or sets the page.
@@ -27,7 +26,7 @@ namespace Mowa.MovieAPI.Model.Search
         /// <summary>
         /// Gets or sets the movie resultss.
         /// </summary>
-        public ICollection<Movie> Results { get; set; }
+        public ICollection<TvShow> Results { get; set; }
 
         /// <summary>
         /// Gets or sets the total_ results.
